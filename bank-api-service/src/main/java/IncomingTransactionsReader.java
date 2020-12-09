@@ -5,16 +5,17 @@ import java.util.*;
  * Mocks an HTTP server that receives purchase transactions in real time
  */
 public class IncomingTransactionsReader implements Iterator<Transaction> {
+
     private static final String DEFAULT_INPUT_TRANSACTIONS_FILE = "user-transactions.txt";
     private final List<Transaction> transactions;
     private final Iterator<Transaction> transactionIterator;
     private final String transactionsFile;
 
-    public IncomingTransactionsReader(){
+    public IncomingTransactionsReader() {
         this(DEFAULT_INPUT_TRANSACTIONS_FILE);
     }
 
-    public IncomingTransactionsReader(String transactionsFile){
+    public IncomingTransactionsReader(String transactionsFile) {
         this.transactionsFile = transactionsFile;
         this.transactions = loadTransactions();
         this.transactionIterator = transactions.iterator();
@@ -46,4 +47,5 @@ public class IncomingTransactionsReader implements Iterator<Transaction> {
     public Transaction next() {
         return transactionIterator.next();
     }
+
 }

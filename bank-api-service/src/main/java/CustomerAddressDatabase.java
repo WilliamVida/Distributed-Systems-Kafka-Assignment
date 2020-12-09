@@ -8,11 +8,12 @@ import java.util.Scanner;
  * Mock database that contains a map from a user to its country of residence
  */
 public class CustomerAddressDatabase {
+
     private static final String DEFAULT_USER_RESIDENCE_FILE = "user-residence.txt";
     private final Map<String, String> userToResidenceMap;
     private final String userResidenceFile;
 
-    public CustomerAddressDatabase(){
+    public CustomerAddressDatabase() {
         this(DEFAULT_USER_RESIDENCE_FILE);
     }
 
@@ -41,11 +42,11 @@ public class CustomerAddressDatabase {
 
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
-            String []userResidencePair = line.split(" ");
+            String[] userResidencePair = line.split(" ");
             userToResidence.put(userResidencePair[0], userResidencePair[1]);
         }
+        
         return Collections.unmodifiableMap(userToResidence);
     }
-
 
 }

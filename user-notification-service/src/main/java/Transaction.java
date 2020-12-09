@@ -2,6 +2,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.kafka.common.serialization.Deserializer;
 
 public class Transaction {
+
     private String user;
     private double amount;
     private String transactionLocation;
@@ -10,20 +11,20 @@ public class Transaction {
         return user;
     }
 
-    public double getAmount() {
-        return amount;
-    }
-
-    public String getTransactionLocation() {
-        return transactionLocation;
-    }
-
     public void setUser(String user) {
         this.user = user;
     }
 
+    public double getAmount() {
+        return amount;
+    }
+
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public String getTransactionLocation() {
+        return transactionLocation;
     }
 
     public void setTransactionLocation(String transactionLocation) {
@@ -54,8 +55,9 @@ public class Transaction {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            return transaction;
 
+            return transaction;
         }
     }
+
 }

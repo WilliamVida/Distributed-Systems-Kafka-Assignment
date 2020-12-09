@@ -4,6 +4,7 @@ import org.apache.kafka.common.serialization.Serializer;
 import java.util.Objects;
 
 public class Transaction {
+
     private String user;
     private double amount;
     private String transactionLocation;
@@ -67,4 +68,5 @@ public class Transaction {
             return serializedData;
         }
     }
+
 }
