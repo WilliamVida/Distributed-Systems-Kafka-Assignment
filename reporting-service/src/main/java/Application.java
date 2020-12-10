@@ -30,32 +30,31 @@ public class Application {
     }
 
     public static void consumeMessages(List<String> topics, Consumer<String, Transaction> kafkaConsumer) {
-
         while (true) {
             kafkaConsumer.subscribe(Collections.singletonList(topics.get(0)));
-            ConsumerRecords<String, Transaction> consumerRecords = kafkaConsumer.poll(Duration.ofSeconds(1));
+            ConsumerRecords<String, Transaction> validConsumerRecords = kafkaConsumer.poll(Duration.ofSeconds(1));
 
-            if (consumerRecords.isEmpty()) {
+            if (validConsumerRecords.isEmpty()) {
 
             }
 
-            for (ConsumerRecord<String, Transaction> record : consumerRecords) {
+            for (ConsumerRecord<String, Transaction> record : validConsumerRecords) {
+                System.out.println(String.format("Received record (key: %s, value: %s), partition: %d, offset: %d.", record.value().getUser(), record.value(), record.partition(), record.offset(), record.topic()));
                 recordTransactionForReporting(record.topic(), record.value());
-                System.out.println(String.format("Received record (key: %s, value: %s), partition: %d, offset: %d.\n", record.value().getUser(), record.value(), record.partition(), record.offset(), record.topic()));
             }
 
             kafkaConsumer.commitAsync();
 
             kafkaConsumer.subscribe(Collections.singletonList(topics.get(1)));
-            ConsumerRecords<String, Transaction> consumerRecords2 = kafkaConsumer.poll(Duration.ofSeconds(1));
+            ConsumerRecords<String, Transaction> suspiciousConsumerRecords = kafkaConsumer.poll(Duration.ofSeconds(1));
 
-            if (consumerRecords2.isEmpty()) {
+            if (suspiciousConsumerRecords.isEmpty()) {
 
             }
 
-            for (ConsumerRecord<String, Transaction> record : consumerRecords2) {
+            for (ConsumerRecord<String, Transaction> record : suspiciousConsumerRecords) {
+                System.out.println(String.format("Received record (key: %s, value: %s), partition: %d, offset: %d.", record.value().getUser(), record.value(), record.partition(), record.offset(), record.topic()));
                 recordTransactionForReporting(record.topic(), record.value());
-                System.out.println(String.format("Received record (key: %s, value: %s), partition: %d, offset: %d.\n", record.value().getUser(), record.value(), record.partition(), record.offset(), record.topic()));
             }
 
             kafkaConsumer.commitAsync();
@@ -79,9 +78,9 @@ public class Application {
         // Print a different message depending on whether transaction is suspicious or valid
 
         if (topic.equalsIgnoreCase(SUSPICIOUS_TRANSACTIONS_TOPIC)) {
-            System.out.println("Recording suspicious transaction for user " + transaction.getUser() + ", amount " + transaction.getAmount() + " originating in " + transaction.getTransactionLocation() + " for further investigation.");
-        } else if (topic.equalsIgnoreCase(VALID_TRANSACTIONS_TOPIC)){
-            System.out.println("Recording transaction for user " + transaction.getUser() + ", amount " + transaction.getAmount() + " to show on user's monthly statement.");
+            System.out.println("Recording suspicious transaction for user " + transaction.getUser() + ", amount " + transaction.getAmount() + " originating in " + transaction.getTransactionLocation() + " for further investigation.\n");
+        } else if (topic.equalsIgnoreCase(VALID_TRANSACTIONS_TOPIC)) {
+            System.out.println("Recording transaction for user " + transaction.getUser() + ", amount " + transaction.getAmount() + " to show on user's monthly statement.\n");
         }
     }
 

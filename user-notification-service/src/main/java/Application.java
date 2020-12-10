@@ -37,8 +37,8 @@ public class Application {
             }
 
             for (ConsumerRecord<String, Transaction> suspiciousRecord : consumerRecords) {
+                System.out.println(String.format("Received record (key: %s, value: %s), partition: %d, offset: %d.", suspiciousRecord.value().getUser(), suspiciousRecord.value(), suspiciousRecord.partition(), suspiciousRecord.offset(), suspiciousRecord.topic()));
                 sendUserNotification(suspiciousRecord.value());
-                System.out.println(String.format("Received record (key: %s, value: %s), partition: %d, offset: %d.\n", suspiciousRecord.value().getUser(), suspiciousRecord.value(), suspiciousRecord.partition(), suspiciousRecord.offset(), suspiciousRecord.topic()));
             }
 
             kafkaConsumer.commitAsync();
@@ -60,7 +60,7 @@ public class Application {
     private static void sendUserNotification(Transaction transaction) {
         // Print transaction information to the console
 
-        System.out.println("Sending user notification " + transaction.getUser() + " about a suspicious transaction of $" + transaction.getAmount() + " in their account originating in " + transaction.getTransactionLocation() + ".");
+        System.out.println("Sending user notification " + transaction.getUser() + " about a suspicious transaction of $" + transaction.getAmount() + " in their account originating in " + transaction.getTransactionLocation() + ".\n");
     }
 
 }

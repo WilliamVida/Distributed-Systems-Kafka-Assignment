@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.io.FileNotFoundException;
 import java.util.concurrent.ExecutionException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,7 +28,7 @@ class ApplicationTest {
 
 
     @Test
-    void testProducesMessages() throws ExecutionException, InterruptedException, FileNotFoundException {
+    void testProducesMessages() throws ExecutionException, InterruptedException {
         Application testApp = new Application();
         testApp.processTransactions(transactionsReader, userDb, mockProducer);
 
@@ -38,7 +37,7 @@ class ApplicationTest {
 
 
     @Test
-    public void testValidTransactionsTopic() throws ExecutionException, InterruptedException, FileNotFoundException {
+    public void testValidTransactionsTopic() throws ExecutionException, InterruptedException {
         Application testApp = new Application();
         testApp.processTransactions(transactionsReader, userDb, mockProducer);
 
@@ -50,7 +49,7 @@ class ApplicationTest {
 
 
     @Test
-    public void testSuspiciousTransactionsTopic() throws ExecutionException, InterruptedException, FileNotFoundException {
+    public void testSuspiciousTransactionsTopic() throws ExecutionException, InterruptedException {
         Application testApp = new Application();
         testApp.processTransactions(transactionsReader, userDb, mockProducer);
 
@@ -60,7 +59,7 @@ class ApplicationTest {
     }
 
     @Test
-    public void testMessageContents() throws ExecutionException, InterruptedException, FileNotFoundException {
+    public void testMessageContents() throws ExecutionException, InterruptedException {
         Application testApp = new Application();
         testApp.processTransactions(transactionsReader, userDb, mockProducer);
         String testUser = "joe1680";

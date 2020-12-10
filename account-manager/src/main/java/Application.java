@@ -28,8 +28,7 @@ public class Application {
     public static void consumeMessages(String topic, Consumer<String, Transaction> kafkaConsumer) {
         kafkaConsumer.subscribe(Collections.singletonList(topic));
 
-        while (true)
-        {
+        while (true) {
             ConsumerRecords<String, Transaction> consumerRecords = kafkaConsumer.poll(Duration.ofSeconds(2));
 
             if (consumerRecords.isEmpty()) {
@@ -37,9 +36,8 @@ public class Application {
             }
 
             for (ConsumerRecord<String, Transaction> validRecord : consumerRecords) {
+                System.out.println(String.format("Received record (key: %s, value: %s), partition: %d, offset: %d.", validRecord.value().getUser(), validRecord.value(), validRecord.partition(), validRecord.offset(), validRecord.topic()));
                 approveTransaction(validRecord.value());
-                System.out.println(String.format("Received record (key: %s, value: %s), partition: %d, offset: %d.\n", validRecord.value().getUser(), validRecord.value(), validRecord.partition(), validRecord.offset(), validRecord.topic()));
-
             }
 
             kafkaConsumer.commitAsync();
@@ -61,7 +59,7 @@ public class Application {
     private static void approveTransaction(Transaction transaction) {
         // Print transaction information to the console
 
-        System.out.println("Authorising transaction for user " + transaction.getUser() + " in the amount of $" + transaction.getAmount() + ".");
+        System.out.println("Authorising transaction for user " + transaction.getUser() + " in the amount of $" + transaction.getAmount() + ".\n");
     }
 
 }
